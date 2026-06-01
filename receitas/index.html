@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Receitas Saudáveis • Dra. Sabrina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #FAF6EF; font-family: 'Crimson Text', Georgia, serif; color: #2C1A0E; }
+  ::selection { background: #F2D9DC; }
+  input:focus { box-shadow: 0 0 0 2px #B8909A44; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const P = {
+  bg: "#FAF6EF", card: "#F0EBD8", cardDark: "#E8DCC8",
+  accent: "#4A3728", mauva: "#B8909A", gold: "#A07040",
+  rosa: "#F2D9DC", text: "#2C1A0E", textLight: "#7A5C4A",
+  white: "#FFFDF9",
+};
+
+const RECIPES = [
+  {
+    id:"waffle-choc",nome:"Waffles de Chocolate",subtitulo:"Sem glúten",
+    descricao:"Neutros, sem adoçar — perfeitos com geleia de fruta sem açúcar",
+    porcoes:2,tags:["sem glúten","sem açúcar","café da manhã"],
+    ingredientes:[
+      {id:1,q:"1 xícara",n:"farinha sem glúten Zaya"},
+      {id:2,q:"1 colher de sopa",n:"fermento em pó"},
+      {id:3,q:"2",n:"ovos"},
+      {id:4,q:"1 xícara + 2 col. de sopa",n:"leite de aveia (ou outro leite vegetal)"},
+      {id:5,q:"1 colher de chá",n:"óleo comum"},
+      {id:6,q:"1 colher de sopa",n:"cacau 70%"},
+      {id:7,q:"1 colher de sopa",n:"essência de baunilha"},
+      {id:8,q:"a gosto",n:"geleia de fruta sem açúcar (para servir)"},
+    ],
+    passos:[
+      {id:1,t:"Misturar a massa",d:"Bater todos os ingredientes até obter uma massa líquida homogênea. Não adoçar — o waffle fica bem neutro, que é a proposta.",timer:""},
+      {id:2,t:"Untar e assar",d:"Espalhar spray de óleo de coco na máquina de waffle. Despejar a massa e assar até dourar.",timer:""},
+      {id:3,t:"Air Fryer (opcional, para crocância)",d:"Após sair da máquina, colocar na Air Fryer a 180°C por 5 minutos.",timer:"5 min • 180°C"},
+      {id:4,t:"Servir",d:"Servir com geleia de fruta sem açúcar. Rende 2 waffles grandes.",timer:""},
+    ],
+    dicas:"Para mais crocância: após a máquina, Air Fryer a 180°C por 5 min.",
+  },
+  {
+    id:"biscoitao",nome:"Biscoitão de Polvilho",subtitulo:"",
+    descricao:"Crocante, simples e sem mistério — ótimo para petiscar",
+    porcoes:2,tags:["sem glúten","lanche","forno"],
+    ingredientes:[
+      {id:1,q:"1 xícara",n:"polvilho azedo"},
+      {id:2,q:"1",n:"ovo"},
+      {id:3,q:"1 colher de sopa",n:"azeite"},
+      {id:4,q:"100 ml",n:"água"},
+      {id:5,q:"1/2 colher de chá",n:"sal"},
+    ],
+    passos:[
+      {id:1,t:"Preaquecer",d:"Preaqueça o forno a 250°C.",timer:""},
+      {id:2,t:"Misturar",d:"Misture todos os ingredientes até obter uma massa homogênea.",timer:""},
+      {id:3,t:"Assar",d:"Despeje em forma retangular de 28 cm (ou divida em duas formas para biscoitos mais finos e crocantes). Asse por 10 a 15 minutos, até as bordas levantarem e começar a dourar.",timer:"10–15 min • 250°C"},
+    ],
+    dicas:"Dividir em duas formas deixa o biscoito mais fino e crocante.",
+  },
+  {
+    id:"torta-iogurte",nome:"Torta de Liquidificador com Iogurte",subtitulo:"",
+    descricao:"Versátil — pode ser salgada com queijo ou levemente temperada com sal",
+    porcoes:6,tags:["lanche","forno","liquidificador"],
+    ingredientes:[
+      {id:1,q:"1 copo",n:"iogurte desnatado"},
+      {id:2,q:"2",n:"ovos"},
+      {id:3,q:"1/2 xícara",n:"leite desnatado"},
+      {id:4,q:"1 xícara",n:"farinha de trigo"},
+      {id:5,q:"1/4 xícara",n:"farinha de aveia"},
+      {id:6,q:"1/4 xícara",n:"farinha de linhaça dourada"},
+      {id:7,q:"1 colher de sopa",n:"manteiga"},
+      {id:8,q:"1 colher de sopa",n:"fermento em pó"},
+      {id:9,q:"a gosto",n:"sal ou queijo ralado"},
+    ],
+    passos:[
+      {id:1,t:"Preaquecer",d:"Preaqueça o forno a 180°C.",timer:""},
+      {id:2,t:"Liquidificador",d:"Bata o iogurte, os ovos, o leite e a manteiga.",timer:""},
+      {id:3,t:"Farinhas",d:"Acrescente as farinhas aos poucos. Se a massa ficar pesada, misture com colher.",timer:""},
+      {id:4,t:"Finalizar e assar",d:"Adicione sal ou queijo. Incorpore o fermento por último. Asse em forma untada por 40 a 50 minutos até dourar.",timer:"40–50 min • 180°C"},
+    ],
+    dicas:"",
+  },
+  {
+    id:"bolo-iogurte-maca",nome:"Bolo de Iogurte, Maçã e Mel",subtitulo:"",
+    descricao:"Macio, levemente adoçado com mel e maçã ralada",
+    porcoes:8,tags:["bolo","forno","lanche"],
+    ingredientes:[
+      {id:1,q:"1 copo",n:"iogurte natural"},
+      {id:2,q:"1/2 xícara",n:"óleo vegetal"},
+      {id:3,q:"4",n:"ovos"},
+      {id:4,q:"1 xícara",n:"farinha de aveia"},
+      {id:5,q:"1 xícara",n:"farinha de trigo"},
+      {id:6,q:"1 colher de sopa",n:"mel"},
+      {id:7,q:"1 grande",n:"maçã ralada"},
+      {id:8,q:"1 colher de sopa",n:"fermento em pó"},
+    ],
+    passos:[
+      {id:1,t:"Preaquecer",d:"Preaqueça o forno a 200–230°C.",timer:""},
+      {id:2,t:"Liquidificador",d:"Bata o iogurte, o óleo e os ovos.",timer:""},
+      {id:3,t:"Farinhas, mel e maçã",d:"Acrescente as farinhas, o mel e a maçã ralada.",timer:""},
+      {id:4,t:"Assar",d:"Incorpore o fermento por último. Asse em formas pequenas por 20–30 min ou em forma grande por 30–40 min.",timer:"20–40 min"},
+    ],
+    dicas:"Em formas pequenas assa mais rápido e fica mais fofo.",
+  },
+  {
+    id:"bolo-banana",nome:"Bolo de Banana",subtitulo:"Sem trigo",
+    descricao:"Simples e fofinho com farinha de aveia e linhaça",
+    porcoes:8,tags:["bolo","sem trigo","forno","banana"],
+    ingredientes:[
+      {id:1,q:"4",n:"bananas maduras"},
+      {id:2,q:"4",n:"ovos"},
+      {id:3,q:"1 + 2/3 xícara",n:"farinha de aveia"},
+      {id:4,q:"1/3 xícara",n:"farinha de linhaça dourada"},
+      {id:5,q:"1/2 xícara",n:"óleo de canola"},
+      {id:6,q:"2 colheres de sopa",n:"fermento em pó"},
+      {id:7,q:"a gosto",n:"chia para polvilhar (opcional)"},
+    ],
+    passos:[
+      {id:1,t:"Liquidificador",d:"Bata as bananas, os ovos e o óleo.",timer:""},
+      {id:2,t:"Farinhas",d:"Acrescente as farinhas e bata até massa homogênea.",timer:""},
+      {id:3,t:"Assar",d:"Incorpore o fermento. Despeje em forma untada, polvilhe chia se quiser e asse a 180°C por 20–25 min.",timer:"20–25 min • 180°C"},
+    ],
+    dicas:"Polvilhar chia antes de assar dá uma textura especial.",
+  },
+  {
+    id:"nuggets",nome:"Nuggets de Frango",subtitulo:"Caseiro",
+    descricao:"Empanados com linhaça e páprica defumada — forno ou air fryer",
+    porcoes:4,tags:["frango","lanche","air fryer","forno"],
+    ingredientes:[
+      {id:1,q:"500 g",n:"filé de peito de frango cru triturado"},
+      {id:2,q:"aprox. 1/2 xícara",n:"farinha de trigo"},
+      {id:3,q:"a gosto",n:"ovo ou leite (para empanar)"},
+      {id:4,q:"aprox. 1/2 xícara",n:"farinha de rosca"},
+      {id:5,q:"1 colher de sopa",n:"farinha de linhaça dourada"},
+      {id:6,q:"a gosto",n:"páprica defumada"},
+      {id:7,q:"a gosto",n:"sal, pimenta-do-reino e limão"},
+    ],
+    passos:[
+      {id:1,t:"Triturar e temperar",d:"Triture o frango e tempere com sal, pimenta e limão.",timer:""},
+      {id:2,t:"Modelar e empanar",d:"Modele em formato de nugget. Passe na farinha de trigo, no ovo ou leite, e depois na mistura de farinha de rosca + linhaça + páprica.",timer:""},
+      {id:3,t:"Assar",d:"Asse em forno ou air fryer por 20–25 minutos até dourar.",timer:"20–25 min"},
+    ],
+    dicas:"",
+  },
+  {
+    id:"pao-queijo",nome:"Pão de Queijo Caseiro",subtitulo:"",
+    descricao:"Feito com polvilho azedo e queijo minas — clássico",
+    porcoes:20,tags:["sem glúten","lanche","forno"],
+    ingredientes:[
+      {id:1,q:"500 ml",n:"leite desnatado"},
+      {id:2,q:"500 g",n:"polvilho azedo"},
+      {id:3,q:"2 colheres de sopa",n:"manteiga"},
+      {id:4,q:"a gosto",n:"queijo minas (aprox. 1/4 do queijo)"},
+    ],
+    passos:[
+      {id:1,t:"Ferver",d:"Ferva o leite com a manteiga.",timer:""},
+      {id:2,t:"Polvilho",d:"Adicione o polvilho e mexa até formar grumos.",timer:""},
+      {id:3,t:"Queijo e assar",d:"Incorpore o queijo minas, modele em bolinhas e asse a 180°C até dourar.",timer:"180°C — até dourar"},
+    ],
+    dicas:"",
+  },
+  {
+    id:"donuts-baunilha",nome:"Donuts de Baunilha com Mel",subtitulo:"",
+    descricao:"Leves e perfumados — máquina de donuts ou forno",
+    porcoes:10,tags:["doce","lanche","forno"],
+    ingredientes:[
+      {id:1,q:"1 xícara",n:"farinha de aveia"},
+      {id:2,q:"1 colher de sopa",n:"mel"},
+      {id:3,q:"1/4 xícara",n:"leite de coco em pó"},
+      {id:4,q:"2",n:"ovos"},
+      {id:5,q:"10 gotas",n:"extrato de baunilha"},
+      {id:6,q:"2 colheres de sopa",n:"água"},
+      {id:7,q:"1 colher de chá",n:"fermento em pó"},
+    ],
+    passos:[
+      {id:1,t:"Misturar",d:"Misture todos os ingredientes até massa homogênea.",timer:""},
+      {id:2,t:"Assar",d:"Máquina de donuts: 5 minutos. Forno em forma de silicone: 20–25 min a 180°C.",timer:"5 min (máquina) ou 20–25 min • 180°C"},
+    ],
+    dicas:"Rende 10 donuts pequenos.",
+  },
+  {
+    id:"rosquinha-coco",nome:"Rosquinha de Coco",subtitulo:"",
+    descricao:"Com farinha de coco e açúcar de coco — sem trigo",
+    porcoes:6,tags:["sem trigo","doce","lanche","forno"],
+    ingredientes:[
+      {id:1,q:"3/4 xícara",n:"farinha de coco"},
+      {id:2,q:"1 + 1/2 colher de sopa",n:"açúcar de coco"},
+      {id:3,q:"1 colher de chá",n:"fermento químico"},
+      {id:4,q:"4",n:"ovos"},
+      {id:5,q:"100 ml",n:"leite"},
+    ],
+    passos:[
+      {id:1,t:"Misturar",d:"Misture todos os ingredientes até massa homogênea.",timer:""},
+      {id:2,t:"Assar",d:"Máquina de donuts: 5–6 minutos. Forno em forma de silicone: 20–25 min a 180°C.",timer:"5–6 min (máquina) ou 20–25 min • 180°C"},
+    ],
+    dicas:"",
+  },
+  {
+    id:"donuts-cenoura",nome:"Donuts de Cenoura com Cobertura de Cacau",subtitulo:"",
+    descricao:"Massa de cenoura no liquidificador com cobertura de cacau",
+    porcoes:42,tags:["doce","lanche","forno","cobertura"],
+    ingredientes:[
+      {id:1,q:"1 grande",n:"cenoura sem casca picada"},
+      {id:2,q:"4",n:"ovos"},
+      {id:3,q:"100 ml",n:"óleo de canola"},
+      {id:4,q:"1 xícara",n:"farinha de trigo"},
+      {id:5,q:"1 xícara",n:"farinha de aveia"},
+      {id:6,q:"2/3 xícara",n:"açúcar demerara"},
+      {id:7,q:"1 colher de sopa",n:"fermento em pó"},
+      {id:8,q:"— COBERTURA —",n:""},
+      {id:9,q:"4 colheres de sopa",n:"leite"},
+      {id:10,q:"1 colher de sopa",n:"cacau em pó"},
+      {id:11,q:"1 colher de sopa",n:"açúcar demerara"},
+      {id:12,q:"1 colher de sopa",n:"manteiga"},
+    ],
+    passos:[
+      {id:1,t:"Liquidificador",d:"Bata a cenoura, o óleo e os ovos.",timer:""},
+      {id:2,t:"Massa",d:"Misture os ingredientes secos em tigela. Adicione a mistura do liquidificador e o fermento por último.",timer:""},
+      {id:3,t:"Assar",d:"Máquina de donuts: 4 min de um lado + 1–2 do outro. Forno (formas individuais): 15–20 min a 200°C.",timer:"15–20 min • 200°C"},
+      {id:4,t:"Cobertura",d:"Misture leite, cacau, açúcar e manteiga em fogo baixo até ferver. Mergulhe os donuts ou despeje por cima.",timer:""},
+    ],
+    dicas:"Rende aprox. 42 donuts pequenos — ótimo para congelar.",
+  },
+  {
+    id:"waffle-doce",nome:"Waffle Doce",subtitulo:"",
+    descricao:"Clássico e simples — máquina de waffle ou sanduicheira",
+    porcoes:4,tags:["café da manhã","waffle","doce"],
+    ingredientes:[
+      {id:1,q:"1/2 xícara",n:"farinha comum"},
+      {id:2,q:"1/2 xícara",n:"farinha de aveia"},
+      {id:3,q:"1 xícara",n:"leite"},
+      {id:4,q:"2 colheres de sopa",n:"manteiga"},
+      {id:5,q:"2 colheres de sopa",n:"açúcar"},
+      {id:6,q:"1",n:"ovo"},
+      {id:7,q:"1 colher de sopa",n:"fermento químico"},
+    ],
+    passos:[
+      {id:1,t:"Bater",d:"Bata todos os ingredientes no liquidificador.",timer:""},
+      {id:2,t:"Assar",d:"Asse na máquina de waffle ou em sanduicheira até dourar. Rende 4 waffles médios.",timer:""},
+    ],
+    dicas:"",
+  },
+  {
+    id:"sorvete-manga",nome:"Sorvete de Manga e Banana",subtitulo:"Sem açúcar",
+    descricao:"Cremoso, só com frutas — sem açúcar, sem lactose",
+    porcoes:2,tags:["sem açúcar","sem lactose","sobremesa","congelado"],
+    ingredientes:[
+      {id:1,q:"2",n:"bananas maduras em rodelas (congeladas)"},
+      {id:2,q:"1/2",n:"manga em cubos (congelada)"},
+    ],
+    passos:[
+      {id:1,t:"Congelar",d:"Congele as frutas por 3 a 4 horas.",timer:"3–4 horas"},
+      {id:2,t:"Processar",d:"Bata as bananas congeladas no processador. Acrescente a manga aos poucos até obter um creme.",timer:""},
+      {id:3,t:"Servir",d:"Sirva na hora ou congele em porções.",timer:""},
+    ],
+    dicas:"Variações: morango, mamão, framboesa ou cacau.",
+  },
+  {
+    id:"bolinho-milho",nome:"Bolinho Salgado de Milho",subtitulo:"",
+    descricao:"Com fubá e queijo minas — lanche fácil no forno",
+    porcoes:6,tags:["salgado","lanche","forno"],
+    ingredientes:[
+      {id:1,q:"1",n:"ovo"},
+      {id:2,q:"1/2 xícara",n:"leite"},
+      {id:3,q:"1/2 xícara",n:"queijo minas ralado"},
+      {id:4,q:"1 xícara",n:"milho verde"},
+      {id:5,q:"1/2 colher de sopa",n:"manteiga"},
+      {id:6,q:"1/2 xícara",n:"fubá mimoso"},
+      {id:7,q:"1/2 colher de sopa",n:"fermento químico"},
+      {id:8,q:"a gosto",n:"sal"},
+    ],
+    passos:[
+      {id:1,t:"Liquidificador",d:"Bata o ovo, leite, queijo, milho e manteiga.",timer:""},
+      {id:2,t:"Massa",d:"Misture o fubá e o fermento. Ajuste o sal.",timer:""},
+      {id:3,t:"Assar",d:"Despeje em forminhas e asse a 200°C por 15–20 minutos.",timer:"15–20 min • 200°C"},
+    ],
+    dicas:"",
+  },
+];
+
+const ALL_TAGS = [...new Set(RECIPES.flatMap(r => r.tags))].sort();
+
+function App() {
+  const [open, setOpen] = React.useState(null);
+  const [search, setSearch] = React.useState("");
+  const [activeTag, setActiveTag] = React.useState(null);
+
+  const filtered = RECIPES.filter(r => {
+    const q = search.toLowerCase();
+    const matchSearch = !q || r.nome.toLowerCase().includes(q) || r.tags.some(t => t.includes(q));
+    const matchTag = !activeTag || r.tags.includes(activeTag);
+    return matchSearch && matchTag;
+  });
+
+  const recipe = open ? RECIPES.find(r => r.id === open) : null;
+
+  return (
+    <div style={{background: P.bg, minHeight: "100vh", fontFamily: "'Crimson Text', Georgia, serif", color: P.text}}>
+
+      {/* HEADER */}
+      <div style={{background: P.accent, padding: "32px 20px 0"}}>
+        <div style={{maxWidth: 600, margin: "0 auto"}}>
+          <div style={{textAlign:"center", marginBottom: 20}}>
+            <div style={{fontFamily:"'Playfair Display', serif", fontSize: 28, color: P.card, letterSpacing: "0.02em"}}>
+              Receitas Saudáveis
+            </div>
+            <div style={{color: P.gold, fontSize: 13, marginTop: 5, letterSpacing: "0.14em", textTransform: "uppercase", fontStyle: "italic"}}>
+              por Dra. Sabrina Gois Santos
+            </div>
+          </div>
+
+          {/* Search */}
+          <input
+            value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="🔍  buscar receitas..."
+            style={{width:"100%", background:"rgba(255,255,255,0.1)", border:`1px solid ${P.gold}44`,
+              borderRadius:28, padding:"11px 18px", color: P.card, fontSize:16,
+              outline:"none", fontFamily:"'Crimson Text', serif", marginBottom:16}}
+          />
+
+          {/* Tags */}
+          <div style={{display:"flex", gap:8, flexWrap:"wrap", paddingBottom:16, overflowX:"auto"}}>
+            <button onClick={() => setActiveTag(null)}
+              style={{background: !activeTag ? P.gold : "transparent",
+                border:`1px solid ${P.gold}`, color: !activeTag ? P.accent : P.gold,
+                borderRadius:20, padding:"4px 14px", fontSize:13, cursor:"pointer",
+                fontFamily:"'Crimson Text', serif", whiteSpace:"nowrap", transition:"all 0.15s"}}>
+              todas
+            </button>
+            {ALL_TAGS.map(t => (
+              <button key={t} onClick={() => setActiveTag(activeTag === t ? null : t)}
+                style={{background: activeTag === t ? P.gold : "transparent",
+                  border:`1px solid ${P.gold}`, color: activeTag === t ? P.accent : P.gold,
+                  borderRadius:20, padding:"4px 14px", fontSize:13, cursor:"pointer",
+                  fontFamily:"'Crimson Text', serif", whiteSpace:"nowrap", transition:"all 0.15s"}}>
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* COUNT */}
+      <div style={{textAlign:"center", padding:"10px 0 6px", fontSize:13, color:P.textLight, fontStyle:"italic"}}>
+        {filtered.length} {filtered.length === 1 ? "receita" : "receitas"}
+      </div>
+
+      {/* GRID */}
+      <div style={{maxWidth:600, margin:"0 auto", padding:"8px 14px 80px"}}>
+        {filtered.length === 0 ? (
+          <div style={{textAlign:"center", padding:60, color:P.textLight, fontStyle:"italic"}}>
+            Nenhuma receita encontrada
+          </div>
+        ) : (
+          <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(200px,1fr))", gap:12}}>
+            {filtered.map(r => (
+              <div key={r.id} onClick={() => setOpen(r.id)}
+                style={{background:P.card, borderRadius:16, padding:16, cursor:"pointer",
+                  border:`1px solid ${P.cardDark}`, boxShadow:"0 2px 12px rgba(74,55,40,0.08)",
+                  transition:"transform 0.15s, box-shadow 0.15s"}}
+                onMouseEnter={e => {e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.boxShadow="0 6px 20px rgba(74,55,40,0.14)"}}
+                onMouseLeave={e => {e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 2px 12px rgba(74,55,40,0.08)"}}>
+                <div style={{fontFamily:"'Playfair Display', serif", fontSize:16, color:P.accent, marginBottom:3}}>{r.nome}</div>
+                {r.subtitulo && <div style={{fontSize:13, color:P.mauva, fontStyle:"italic", marginBottom:6}}>{r.subtitulo}</div>}
+                {r.descricao && <div style={{fontSize:13, color:P.textLight, lineHeight:1.5, marginBottom:8}}>{r.descricao}</div>}
+                <div>{r.tags.map(t => (
+                  <span key={t} style={{display:"inline-block", background:P.rosa, color:P.accent,
+                    borderRadius:20, padding:"2px 9px", fontSize:11, margin:"2px 2px 2px 0"}}>{t}</span>
+                ))}</div>
+                <div style={{marginTop:8, fontSize:12, color:P.textLight}}>🍽 {r.porcoes} {r.porcoes===1?"porção":"porções"}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* FOOTER */}
+      <div style={{textAlign:"center", padding:"20px 16px 40px", fontSize:13, color:P.textLight,
+        borderTop:`1px solid ${P.cardDark}`, background:P.card}}>
+        <div style={{fontFamily:"'Playfair Display', serif", color:P.accent, marginBottom:4}}>Dra. Sabrina Gois Santos</div>
+        Pediatra • Homeopata<br/>
+        <span style={{color:P.mauva}}>@drasabrina.pediatra</span>
+      </div>
+
+      {/* MODAL */}
+      {recipe && (
+        <div onClick={() => setOpen(null)}
+          style={{position:"fixed", inset:0, background:"rgba(44,26,14,0.6)", zIndex:200,
+            display:"flex", alignItems:"flex-end", justifyContent:"center", padding:"0"}}>
+          <div onClick={e => e.stopPropagation()}
+            style={{background:P.bg, borderRadius:"24px 24px 0 0", width:"100%", maxWidth:600,
+              maxHeight:"92vh", overflowY:"auto", padding:"0 0 40px"}}>
+
+            {/* Modal header */}
+            <div style={{position:"sticky", top:0, background:P.bg, padding:"16px 20px 12px",
+              borderBottom:`1px solid ${P.cardDark}`, display:"flex", justifyContent:"space-between", alignItems:"flex-start"}}>
+              <div>
+                <div style={{fontFamily:"'Playfair Display', serif", fontSize:22, color:P.accent}}>{recipe.nome}</div>
+                {recipe.subtitulo && <div style={{fontSize:14, color:P.mauva, fontStyle:"italic"}}>{recipe.subtitulo}</div>}
+              </div>
+              <button onClick={() => setOpen(null)}
+                style={{background:"none", border:"none", fontSize:24, color:P.textLight, cursor:"pointer", lineHeight:1, padding:4}}>×</button>
+            </div>
+
+            <div style={{padding:"20px 20px 0"}}>
+              {recipe.descricao && (
+                <div style={{color:P.textLight, fontSize:16, marginBottom:14, fontStyle:"italic"}}>{recipe.descricao}</div>
+              )}
+              <div style={{display:"flex", gap:8, flexWrap:"wrap", marginBottom:20}}>
+                {recipe.tags.map(t => (
+                  <span key={t} style={{background:P.rosa, color:P.accent, borderRadius:20, padding:"3px 12px", fontSize:13}}>{t}</span>
+                ))}
+                <span style={{fontSize:13, color:P.textLight}}>🍽 {recipe.porcoes} {recipe.porcoes===1?"porção":"porções"}</span>
+              </div>
+
+              {/* Ingredientes */}
+              <Section title="Ingredientes"/>
+              {recipe.ingredientes.map(i => (
+                i.q === "— COBERTURA —"
+                  ? <div key={i.id} style={{fontSize:12, color:P.gold, textTransform:"uppercase",
+                      letterSpacing:"0.1em", padding:"10px 0 6px", fontFamily:"'Playfair Display', serif"}}>Cobertura</div>
+                  : <div key={i.id} style={{display:"flex", gap:10, padding:"8px 0",
+                      borderBottom:`1px solid ${P.cardDark}`, alignItems:"baseline"}}>
+                      <span style={{color:P.accent, fontWeight:600, minWidth:140, fontSize:15}}>{i.q}</span>
+                      <span style={{fontSize:15, flex:1}}>{i.n}</span>
+                    </div>
+              ))}
+
+              {/* Modo de preparo */}
+              <Section title="Modo de Preparo" mt={20}/>
+              {recipe.passos.map((p, idx) => (
+                <div key={p.id} style={{background:P.card, borderRadius:12, padding:14, marginBottom:10,
+                  display:"flex", gap:10, border:`1px solid ${P.cardDark}`}}>
+                  <div style={{width:26, height:26, borderRadius:"50%", background:P.accent, color:P.card,
+                    display:"flex", alignItems:"center", justifyContent:"center",
+                    fontSize:12, fontWeight:700, flexShrink:0, marginTop:2}}>{idx+1}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontFamily:"'Playfair Display', serif", fontSize:15, color:P.accent, marginBottom:4}}>{p.t}</div>
+                    <div style={{fontSize:15, lineHeight:1.65}}>{p.d}</div>
+                    {p.timer && (
+                      <div style={{marginTop:6, fontSize:12, color:P.gold, background:P.rosa,
+                        display:"inline-block", borderRadius:12, padding:"2px 10px"}}>⏱ {p.timer}</div>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {/* Dicas */}
+              {recipe.dicas && (
+                <>
+                  <Section title="Dicas" mt={4}/>
+                  <div style={{padding:"10px 14px", background:"#FFF8EC", borderRadius:10,
+                    fontSize:15, borderLeft:`3px solid ${P.gold}`, marginBottom:16}}>{recipe.dicas}</div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Section({title, mt=0}) {
+  return (
+    <div style={{fontFamily:"'Playfair Display', serif", fontSize:12, color:"#A07040",
+      borderBottom:"1px solid #E8DCC8", paddingBottom:6, marginBottom:12, marginTop:mt,
+      textTransform:"uppercase", letterSpacing:"0.1em"}}>{title}</div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App/>);
+</script>
+</body>
+</html>
